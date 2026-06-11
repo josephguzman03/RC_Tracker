@@ -156,3 +156,27 @@
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.4; }
   }
+
+  @media (max-width: 900px) {
+    .navbar {
+      padding: 0 16px;
+    }
+  
+    .navbar-meta {
+      display: none;
+    }
+  
+    .main-content {
+      padding: 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .navbar-name {
+      font-size: 0.85rem;
+    }
+  
+    .app-body {
+      flex-direction: column;
+    }
+  }

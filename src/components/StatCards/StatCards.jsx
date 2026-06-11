@@ -1,37 +1,47 @@
+import useClimberStats from '../../hooks/useClimberStats'
 import './StatCards.css'
 
-const STATS = [
-  {
-    key:     'grade',
-    label:   'Current Grade',
-    value:   'V5',
-    sub:     'Projected V6 in 6 weeks',
-    color:   'blue',
-  },
-  {
-    key:     'sessions',
-    label:   'Sessions This Week',
-    value:   '3',
-    sub:     '2 days since last session',
-    color:   'neutral',
-  },
-  {
-    key:     'restdays',
-    label:   'Rest Days (30d)',
-    value:   '12',
-    sub:     'Load ratio within range',
-    color:   'green',
-  },
-  {
-    key:     'sendrate',
-    label:   'Send Rate',
-    value:   '64%',
-    sub:     '+8% vs last month',
-    color:   'orange',
-  },
-]
-
 export default function StatCards() {
+  const {
+    currentGrade,
+    sessionsThisWeek,
+    restDays,
+    sendRate,
+    sendRateDelta,
+    loadStatus,
+  } = useClimberStats()
+
+  const STATS = [
+    {
+      key:   'grade',
+      label: 'Current Grade',
+      value: currentGrade,
+      sub:   'Highest sent this block',
+      color: 'blue',
+    },
+    {
+      key:   'sessions',
+      label: 'Sessions This Week',
+      value: String(sessionsThisWeek),
+      sub:   `${restDays} day${restDays !== 1 ? 's' : ''} since last session`,
+      color: 'neutral',
+    },
+    {
+      key:   'restdays',
+      label: 'Load Status',
+      value: restDays === 0 ? 'Today' : `${restDays}d rest`,
+      sub:   loadStatus.label,
+      color: loadStatus.color,
+    },
+    {
+      key:   'sendrate',
+      label: 'Send Rate',
+      value: sendRate,
+      sub:   sendRateDelta,
+      color: 'orange',
+    },
+  ]
+
   return (
     <div className="statcards-grid">
       {STATS.map(stat => (

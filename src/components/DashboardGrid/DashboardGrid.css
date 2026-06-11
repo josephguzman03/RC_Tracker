@@ -193,8 +193,33 @@
     opacity: 0.6;
   }
   
-  @media (max-width: 860px) {
+  @media (max-width: 1000px) {
     .dashboard-grid {
       grid-template-columns: 1fr;
+      max-width: 600px;
+    }
+  
+    .dashboard-col--right {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  
+    .info-card--warning {
+      grid-column: 1 / -1;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .dashboard-grid {
+      padding: 16px;
+    }
+  
+    .dashboard-col--right {
+      grid-template-columns: 1fr;
+    }
+  
+    .info-card-title {
+      font-size: 1.3rem;
     }
   }

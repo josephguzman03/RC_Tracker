@@ -1,26 +1,25 @@
 import RadarChart from '../RadarChart/RadarChart'
+import useClimberStats from '../../hooks/useClimberStats'
 import './DashboardGrid.css'
 
-const WEAKEST_LINK = {
-  attribute: 'Flexibility',
-  score:     48,
-  tip:       'Your flexibility is limiting high-step moves on slab. Add 10 min of hip mobility after every session.',
-}
-
-const STREAK_DATA = {
-  streak:      6,
-  totalSessions: 24,
-  thisMonth:   8,
-}
-
-const MILESTONE = {
-  current:  'V5',
-  target:   'V6',
-  progress: 68,
-  blockers: ['Finger strength at 72 — needs 78+', 'Sloper send rate only 31%'],
+const WEAKNESS_TIPS = {
+  fingerStrength: 'Dedicate one session per week to hangboard work on 20mm edges. Progress slowly.',
+  power:          'Add one campus board session per week. Focus on explosive pulls, not lock-offs.',
+  endurance:      'Run 4x4s at the end of two sessions per week. Work two grades below your max.',
+  technique:      'Climb one session per week with feet-only focus. Slow down every move.',
+  mental:         'Practice deliberate falling drills for 10 min each session. Log your fear level.',
+  flexibility:    'Add 10 min of hip mobility after every session. Focus on high-step and hip turnout.',
 }
 
 export default function DashboardGrid() {
+  const {
+    weakestLink,
+    streak,
+    totalSessions,
+    thisMonth,
+    milestone,
+  } = useClimberStats()
+
   return (
     <div className="dashboard-grid">
       <div className="dashboard-col dashboard-col--left">
@@ -33,17 +32,17 @@ export default function DashboardGrid() {
             <span className="info-card-eyebrow">Weakest Link</span>
             <span className="info-card-badge warning">Priority</span>
           </div>
-          <h3 className="info-card-title">{WEAKEST_LINK.attribute}</h3>
+          <h3 className="info-card-title">{weakestLink.label}</h3>
           <div className="score-bar-wrap">
             <div className="score-bar">
               <div
                 className="score-bar-fill warning"
-                style={{ width: `${WEAKEST_LINK.score}%` }}
+                style={{ width: `${weakestLink.score}%` }}
               />
             </div>
-            <span className="score-bar-label">{WEAKEST_LINK.score} / 100</span>
+            <span className="score-bar-label">{weakestLink.score} / 100</span>
           </div>
-          <p className="info-card-tip">{WEAKEST_LINK.tip}</p>
+          <p className="info-card-tip">{WEAKNESS_TIPS[weakestLink.key]}</p>
         </div>
 
         <div className="info-card">
@@ -52,17 +51,17 @@ export default function DashboardGrid() {
             <span className="info-card-badge blue">Active</span>
           </div>
           <h3 className="info-card-title">
-            {STREAK_DATA.streak}
+            {streak}
             <span className="info-card-title-unit"> sessions</span>
           </h3>
           <div className="streak-stats">
             <div className="streak-stat">
-              <span className="streak-stat-value">{STREAK_DATA.thisMonth}</span>
+              <span className="streak-stat-value">{thisMonth}</span>
               <span className="streak-stat-label">This month</span>
             </div>
             <div className="streak-stat-divider" />
             <div className="streak-stat">
-              <span className="streak-stat-value">{STREAK_DATA.totalSessions}</span>
+              <span className="streak-stat-value">{totalSessions}</span>
               <span className="streak-stat-label">All time</span>
             </div>
           </div>
@@ -74,21 +73,21 @@ export default function DashboardGrid() {
             <span className="info-card-badge orange">In Progress</span>
           </div>
           <h3 className="info-card-title">
-            {MILESTONE.current}
+            {milestone.current}
             <span className="info-card-title-arrow"> → </span>
-            {MILESTONE.target}
+            {milestone.target}
           </h3>
           <div className="score-bar-wrap">
             <div className="score-bar">
               <div
                 className="score-bar-fill blue"
-                style={{ width: `${MILESTONE.progress}%` }}
+                style={{ width: `${milestone.progress}%` }}
               />
             </div>
-            <span className="score-bar-label">{MILESTONE.progress}%</span>
+            <span className="score-bar-label">{milestone.progress}%</span>
           </div>
           <ul className="milestone-blockers">
-            {MILESTONE.blockers.map((b, i) => (
+            {milestone.blockers.map((b, i) => (
               <li key={i} className="milestone-blocker">{b}</li>
             ))}
           </ul>
