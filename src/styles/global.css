@@ -1,0 +1,158 @@
+:root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #111118;
+    --bg-card: #16161f;
+    --bg-card-hover: #1c1c28;
+  
+    --accent-blue: #4fc3f7;
+    --accent-orange: #ff6b35;
+    --accent-blue-dim: rgba(79, 195, 247, 0.15);
+    --accent-orange-dim: rgba(255, 107, 53, 0.15);
+  
+    --text-primary: #f0f0f5;
+    --text-secondary: #8888a0;
+    --text-muted: #44445a;
+  
+    --border: rgba(255, 255, 255, 0.06);
+    --border-accent: rgba(79, 195, 247, 0.3);
+  
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+  
+    --nav-height: 56px;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+  
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      linear-gradient(rgba(79, 195, 247, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79, 195, 247, 0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .navbar {
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .navbar-logo {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-orange));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  
+  .navbar-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+  
+  .navbar-meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .app-body {
+    display: flex;
+    flex: 1;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .navbar-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4caf82;
+    box-shadow: 0 0 8px rgba(76, 175, 130, 0.6);
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
