@@ -1,3 +1,5 @@
+import FileUpload from '../components/FileUpload/FileUpload'
+import { useSessionContext } from '../context/SessionContext'
 import './Sessions.css'
 
 const COLUMNS = [
@@ -17,14 +19,16 @@ const COLUMNS = [
 ]
 
 export default function Sessions() {
+  const { sessions } = useSessionContext()
+
   return (
     <div className="sessions-page">
 
       <div className="sessions-header">
-        <p className="sessions-eyebrow">Phase 3 - Coming Next</p>
+        <p className="sessions-eyebrow">Phase 3</p>
         <h1 className="sessions-title">Session Log</h1>
         <p className="sessions-sub">
-          Download the template, fill in your sessions, then upload it here.
+          Download the template, fill in your sessions, then drop it below.
           The entire app updates from your data.
         </p>
       </div>
@@ -46,6 +50,46 @@ export default function Sessions() {
           </a>
         </div>
 
+        <FileUpload />
+
+        {sessions && (
+          <div className="sessions-preview">
+            <p className="sessions-preview-label">
+              {sessions.length} sessions loaded
+            </p>
+            <div className="sessions-table-wrap">
+              <table className="sessions-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Gym</th>
+                    <th>Grade</th>
+                    <th>Style</th>
+                    <th>Sent</th>
+                    <th>RPE</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sessions.map((s, i) => (
+                    <tr key={i}>
+                      <td>{s.date}</td>
+                      <td>{s.gym}</td>
+                      <td>V{s.grade}</td>
+                      <td>{s.style}</td>
+                      <td className={s.sent ? 'sent-yes' : 'sent-no'}>
+                        {s.sent ? 'Yes' : 'No'}
+                      </td>
+                      <td>{s.rpe}</td>
+                      <td className="notes-cell">{s.notes}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         <div className="columns-section">
           <p className="columns-title">Template columns</p>
           <div className="columns-grid">
@@ -56,11 +100,6 @@ export default function Sessions() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="upload-placeholder">
-          <span className="upload-placeholder-icon">▦</span>
-          <p className="upload-placeholder-text">File upload arrives in Git 12</p>
         </div>
 
       </div>
