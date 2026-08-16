@@ -1,100 +1,146 @@
 .radar-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 48px 24px;
-    min-height: 100vh;
-    background: var(--bg-primary);
-  }
-  
-  .radar-header {
-    text-align: center;
-  }
-  
-  .radar-title {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-  }
-  
-  .radar-subtitle {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  
-  .radar-container {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    box-shadow: 0 0 60px rgba(79, 195, 247, 0.04);
-  }
-  
-  .radar-svg {
-    width: 420px;
-    height: 420px;
-    max-width: 90vw;
-    overflow: visible;
-  }
-  
-  .radar-label {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 500;
-    fill: var(--text-secondary);
-    letter-spacing: 0.02em;
-  }
-  
-  .radar-value {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    fill: var(--text-primary);
-  }
-  
-  .radar-legend {
-    display: flex;
-    gap: 32px;
-    align-items: center;
-  }
-  
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    font-family: var(--font-display);
-    letter-spacing: 0.02em;
-  }
-  
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  
-  .legend-dot.blue   { background: #4fc3f7; box-shadow: 0 0 8px rgba(79,195,247,0.6); }
-  .legend-dot.orange { background: #ff6b35; box-shadow: 0 0 8px rgba(255,107,53,0.6); }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 24px;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
 
-  .radar-dot-pulse {
-    animation: pulse 2.4s ease-in-out infinite;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 0.15; r: 6px; }
-    50%       { opacity: 0.45; r: 9px; }
-  }
-  
-  .radar-wrapper {
-    padding-top: 36px;
-  }
+.radar-header {
+  text-align: center;
+}
+
+.radar-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.radar-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.radar-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: 0 0 60px rgba(79, 195, 247, 0.04);
+}
+
+.radar-svg {
+  width: 420px;
+  height: 420px;
+  max-width: 90vw;
+  overflow: visible;
+}
+
+.radar-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.radar-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--text-primary);
+}
+
+.radar-legend {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot.blue   { background: #4fc3f7; box-shadow: 0 0 8px rgba(79,195,247,0.6); }
+.legend-dot.orange { background: #ff6b35; box-shadow: 0 0 8px rgba(255,107,53,0.6); }
+
+.radar-dot-pulse {
+  animation: pulse 2.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.15; r: 6px; }
+  50%       { opacity: 0.45; r: 9px; }
+}
+
+.radar-wrapper {
+  padding-top: 36px;
+}
+/* Sparse real-data state */
+.radar-learning-card {
+width: min(520px, 90vw);
+background: var(--bg-card);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+padding: 28px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+text-align: center;
+}
+
+.radar-learning-label {
+font-family: var(--font-mono);
+font-size: 0.68rem;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(--accent-blue);
+}
+
+.radar-learning-card strong {
+color: var(--text-primary);
+font-family: var(--font-display);
+font-size: 1.2rem;
+}
+
+.radar-learning-card p {
+color: var(--text-secondary);
+font-family: var(--font-display);
+font-size: 0.82rem;
+line-height: 1.6;
+}
+
+.radar-learning-progress {
+height: 5px;
+border-radius: 999px;
+overflow: hidden;
+background: var(--bg-secondary);
+}
+
+.radar-learning-progress > div {
+height: 100%;
+background: var(--accent-blue);
+border-radius: inherit;
+}

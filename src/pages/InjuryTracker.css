@@ -1,0 +1,312 @@
+.injury-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1080px;
+  padding: 40px 24px;
+  gap: 28px;
+  margin: 0 auto;
+}
+
+.injury-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin-bottom: 6px;
+}
+
+.injury-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.injury-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.injury-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.injury-card--wide { grid-column: 1 / -1; }
+
+.injury-card-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.injury-card-sub {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-top: -6px;
+}
+
+.risk-meter {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.risk-gauge { flex-shrink: 0; }
+
+.risk-svg {
+  width: 180px;
+  height: 130px;
+}
+
+.risk-flags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.risk-flag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+
+.risk-flag.active { opacity: 1; }
+
+.risk-flag-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.risk-flag-label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.risk-flag.active .risk-flag-label { color: var(--text-primary); }
+
+.load-recs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.load-rec {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.load-rec-bar {
+  width: 3px;
+  min-height: 36px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.load-rec-text {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.body-map {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.body-part-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.body-part-name {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  width: 64px;
+  flex-shrink: 0;
+  text-transform: capitalize;
+}
+
+.body-part-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.body-part-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0;
+}
+
+.body-part-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  width: 20px;
+  text-align: right;
+}
+
+.injury-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  padding: 16px 0;
+}
+
+.injury-empty-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4caf82;
+  flex-shrink: 0;
+}
+
+.injury-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.injury-event {
+  display: flex;
+  gap: 16px;
+}
+
+.injury-event-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.injury-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(255,107,53,0.4);
+}
+
+.injury-event-line {
+  width: 1px;
+  flex: 1;
+  background: var(--border);
+  margin: 4px 0;
+  min-height: 20px;
+}
+
+.injury-event-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 20px;
+}
+
+.injury-event-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.injury-body-part {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+
+.injury-date {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.injury-context {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-orange);
+  opacity: 0.8;
+}
+
+.injury-note {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+@media (max-width: 700px) {
+  .injury-grid      { grid-template-columns: 1fr; }
+  .injury-card--wide { grid-column: 1; }
+  .risk-meter       { flex-direction: column; align-items: flex-start; }
+}
+.risk-flag-value {
+margin-left: auto;
+font-family: var(--font-mono);
+font-size: 0.68rem;
+color: var(--text-muted);
+}
+
+.risk-confidence {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 4px;
+padding-top: 12px;
+border-top: 1px solid var(--border);
+font-family: var(--font-mono);
+font-size: 0.68rem;
+color: var(--text-muted);
+}
+
+.risk-confidence strong {
+color: var(--text-secondary);
+font-weight: 600;
+}
+
+.risk-footnote {
+margin-top: -2px;
+font-family: var(--font-mono);
+font-size: 0.62rem;
+color: var(--text-muted);
+}
+
+.load-rec-bar--red { background: #ef4444; }
+.load-rec-bar--orange { background: #ff6b35; }
+.load-rec-bar--amber { background: #f59e0b; }
+.load-rec-bar--green { background: #4caf82; }

@@ -66,7 +66,7 @@ function splitPolygonByAxis(points) {
 }
 
 export default function RadarChart() {
-  const { attributes }  = useClimberStats()
+  const { attributes, isReal, profileReady, profileStage, totalSessions } = useClimberStats()
   const maxRadius       = CENTER * 0.72
   const [progress, setProgress] = useState(0)
 
@@ -108,13 +108,33 @@ export default function RadarChart() {
     return ATTRIBUTES.map((_, j) => polarToXY((360 / ATTRIBUTES.length) * j, r))
   })
 
+  if (isReal && !profileReady) {
+    return (
+      <div className="radar-wrapper">
+        <div className="radar-header">
+          <h1 className="radar-title">Climber Profile</h1>
+          <p className="radar-subtitle">Building your baseline</p>
+        </div>
+        <p className="radar-grade-context">Your factual session stats are live. Strength-profile estimates unlock after a few sessions.</p>
+        <div className="radar-learning-card">
+          <span className="radar-learning-label">{profileStage.label}</span>
+          <strong>{profileStage.detail}</strong>
+          <div className="radar-learning-progress">
+            <div style={{ width: `${Math.min((totalSessions / 3) * 100, 100)}%` }} />
+          </div>
+          <p>We need at least 3 real sessions before calling out strengths, weaknesses, or a next milestone.</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="radar-wrapper">
       <div className="radar-header">
         <h1 className="radar-title">Climber Profile</h1>
-        <p className="radar-subtitle">Current session vs 4-week average</p>
+        <p className="radar-subtitle">Current profile vs reference baseline</p>
       </div>
-      <p className="radar-grade-context">Reading from sample data — upload your session log in Phase 3</p>
+      <p className="radar-grade-context">{isReal ? 'Derived from your uploaded session history' : 'Sample profile — upload your session log in Sessions'}</p>
 
       <div className="radar-container">
         <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="radar-svg">
@@ -211,11 +231,11 @@ export default function RadarChart() {
       <div className="radar-legend">
         <div className="legend-item">
           <span className="legend-dot blue" />
-          <span>Current Session</span>
+          <span>Current Profile</span>
         </div>
         <div className="legend-item">
           <span className="legend-dot orange" />
-          <span>4-Week Average</span>
+          <span>Reference Baseline</span>
         </div>
       </div>
     </div>

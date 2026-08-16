@@ -20,7 +20,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        <span className="sidebar-footer-text">v0.1.0 — prototype</span>
+        <span className="sidebar-footer-text">v1.0 · local-first</span>
       </div>
     </aside>
   )

@@ -4,17 +4,19 @@ import { useSessionContext } from '../../context/SessionContext'
 import './FileUpload.css'
 
 export default function FileUpload({ onSuccess }) {
-  const { setSessions }           = useSessionContext()
+  const { mergeSessions, replaceSessions, sessions } = useSessionContext()
   const [isDragging, setDragging] = useState(false)
-  const [status, setStatus]       = useState('idle')
-  const [error, setError]         = useState(null)
-  const [fileName, setFileName]   = useState(null)
-  const inputRef                  = useRef(null)
+  const [status, setStatus] = useState('idle')
+  const [error, setError] = useState(null)
+  const [fileName, setFileName] = useState(null)
+  const [importMode, setImportMode] = useState('merge')
+  const [importResult, setImportResult] = useState(null)
+  const inputRef = useRef(null)
 
   async function handleFile(file) {
     if (!file) return
 
-    if (!file.name.endsWith('.xlsx')) {
+    if (!file.name.toLowerCase().endsWith('.xlsx')) {
       setError('Only .xlsx files are supported')
       setStatus('error')
       return
@@ -23,12 +25,17 @@ export default function FileUpload({ onSuccess }) {
     setStatus('parsing')
     setError(null)
     setFileName(file.name)
+    setImportResult(null)
 
     try {
-      const sessions = await parseExcelFile(file)
-      setSessions(sessions)
+      const parsedSessions = await parseExcelFile(file)
+      const result = importMode === 'merge'
+        ? mergeSessions(parsedSessions)
+        : replaceSessions(parsedSessions)
+
+      setImportResult(result)
       setStatus('success')
-      onSuccess?.(sessions)
+      onSuccess?.(result)
     } catch (err) {
       setError(err.message)
       setStatus('error')
@@ -54,25 +61,54 @@ export default function FileUpload({ onSuccess }) {
     handleFile(e.target.files[0])
   }
 
-  function reset() {
+  function resetPicker() {
     setStatus('idle')
     setError(null)
     setFileName(null)
-    setSessions(null)
+    setImportResult(null)
     if (inputRef.current) inputRef.current.value = ''
   }
 
+  const successText = importResult?.mode === 'merge'
+    ? `${importResult.added} new session${importResult.added === 1 ? '' : 's'} added · ${importResult.skipped} already imported · ${importResult.total} saved locally`
+    : `${importResult?.total ?? sessions.length} sessions replaced and saved locally`
+
   return (
     <div className="file-upload-wrap">
+      <div className="import-mode-row">
+        <div>
+          <p className="import-mode-title">Import behavior</p>
+          <p className="import-mode-sub">Merge is best for an Excel file that keeps growing over time.</p>
+        </div>
+        <div className="import-mode-toggle" role="group" aria-label="Excel import behavior">
+          <button
+            type="button"
+            className={`import-mode-btn ${importMode === 'merge' ? 'active' : ''}`}
+            onClick={() => setImportMode('merge')}
+            disabled={status === 'parsing'}
+          >
+            Merge new rows
+          </button>
+          <button
+            type="button"
+            className={`import-mode-btn ${importMode === 'replace' ? 'active' : ''}`}
+            onClick={() => setImportMode('replace')}
+            disabled={status === 'parsing'}
+          >
+            Replace all
+          </button>
+        </div>
+      </div>
+
       {status === 'success' ? (
         <div className="upload-success">
           <div className="upload-success-icon">✓</div>
           <div className="upload-success-text">
             <p className="upload-success-name">{fileName}</p>
-            <p className="upload-success-sub">Parsed successfully — app is reading your data</p>
+            <p className="upload-success-sub">{successText}</p>
           </div>
-          <button className="upload-reset-btn" onClick={reset}>
-            Replace
+          <button className="upload-reset-btn" onClick={resetPicker}>
+            Import Another
           </button>
         </div>
       ) : (
@@ -94,12 +130,14 @@ export default function FileUpload({ onSuccess }) {
             {status === 'parsing' ? '⟳' : '▦'}
           </span>
           <p className="upload-zone-title">
-            {status === 'parsing' ? 'Parsing...' : 'Drop your session log here'}
+            {status === 'parsing' ? 'Importing...' : importMode === 'merge' ? 'Merge your updated session log' : 'Replace saved sessions'}
           </p>
           <p className="upload-zone-sub">
             {status === 'error'
               ? error
-              : 'Click to browse or drag and drop your .xlsx file'}
+              : importMode === 'merge'
+                ? 'Existing rows are skipped automatically. Only new rows are added.'
+                : 'This will replace the locally saved tracker dataset with this spreadsheet.'}
           </p>
         </div>
       )}

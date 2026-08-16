@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx'
+import { isValidSession, normalizeSession } from './sessionSchema'
 
 const REQUIRED_HEADERS = [
   'Date', 'Gym', 'Grade', 'Wall Angle', 'Style',
@@ -6,34 +7,16 @@ const REQUIRED_HEADERS = [
   'Session Type', 'Injury Flag', 'Notes'
 ]
 
-function normalizeRow(raw) {
-  return {
-    date:        String(raw['Date'] ?? '').trim(),
-    gym:         String(raw['Gym'] ?? '').trim(),
-    grade:       Number(raw['Grade'] ?? 0),
-    wallAngle:   Number(raw['Wall Angle'] ?? 90),
-    style:       String(raw['Style'] ?? '').toLowerCase().trim(),
-    holds:       String(raw['Holds'] ?? '').toLowerCase().split('/').map(h => h.trim()).filter(Boolean),
-    attempts:    Number(raw['Attempts'] ?? 1),
-    sent:        String(raw['Sent'] ?? 'false').toLowerCase() === 'true',
-    rpe:         Number(raw['RPE'] ?? 5),
-    restDays:    Number(raw['Rest Days'] ?? 0),
-    sessionType: String(raw['Session Type'] ?? '').toLowerCase().trim(),
-    injuryFlag:  String(raw['Injury Flag'] ?? 'none').toLowerCase().trim(),
-    notes:       String(raw['Notes'] ?? '').trim(),
-  }
-}
-
 export function parseExcelFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
 
     reader.onload = (e) => {
       try {
-        const data     = new Uint8Array(e.target.result)
-        const workbook = XLSX.read(data, { type: 'array' })
-        const sheet    = workbook.Sheets[workbook.SheetNames[0]]
-        const rows     = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+        const data = new Uint8Array(e.target.result)
+        const workbook = XLSX.read(data, { type: 'array', cellDates: true })
+        const sheet = workbook.Sheets[workbook.SheetNames[0]]
+        const rows = XLSX.utils.sheet_to_json(sheet, { defval: '', raw: true })
 
         if (!rows.length) {
           reject(new Error('File appears to be empty'))
@@ -49,11 +32,31 @@ export function parseExcelFile(file) {
         }
 
         const sessions = rows
-          .filter(r => r['Date'] && r['Grade'])
-          .map(normalizeRow)
+          .map(raw => normalizeSession({
+            date: raw['Date'],
+            gym: raw['Gym'],
+            grade: raw['Grade'],
+            wallAngle: raw['Wall Angle'],
+            style: raw['Style'],
+            holds: raw['Holds'],
+            attempts: raw['Attempts'],
+            sent: raw['Sent'],
+            rpe: raw['RPE'],
+            restDays: raw['Rest Days'],
+            sessionType: raw['Session Type'],
+            injuryFlag: raw['Injury Flag'],
+            notes: raw['Notes'],
+          }))
+          .filter(isValidSession)
+
+        if (!sessions.length) {
+          reject(new Error('No valid climbing rows found — check Date and Grade values'))
+          return
+        }
 
         resolve(sessions)
-      } catch {
+      } catch (error) {
+        console.error(error)
         reject(new Error('Could not read file — make sure it is a valid .xlsx'))
       }
     }

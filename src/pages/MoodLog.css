@@ -1,0 +1,241 @@
+.mood-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1080px;
+    padding: 40px 24px;
+    gap: 28px;
+    margin: 0 auto;
+  }
+  
+  .mood-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin-bottom: 6px;
+  }
+  
+  .mood-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+  }
+  
+  .mood-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .mood-card-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .mood-card-wrap--wide { grid-column: 1 / -1; }
+  
+  .mood-section-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .mood-section-sub {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-top: -6px;
+  }
+  
+  .mood-empty {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 16px 0;
+    font-style: italic;
+  }
+  
+  .mood-svg {
+    width: 100%;
+    height: auto;
+    min-height: 160px;
+    display: block;
+    overflow: visible;
+  }
+  
+  .mood-timeline-wrap { display: flex; flex-direction: column; gap: 20px; }
+  
+  .mood-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .mood-card {
+    background: var(--bg-secondary);
+    border-left: 3px solid;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .mood-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .mood-card-date {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+  
+  .mood-card-score {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  
+  .mood-card-note {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .mood-card-themes { display: flex; flex-wrap: wrap; gap: 4px; }
+  
+  .mood-theme-tag {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: rgba(79,195,247,0.1);
+    color: var(--accent-blue);
+  }
+  
+  .correlation-bars { display: flex; flex-direction: column; gap: 14px; }
+  
+  .corr-row { display: flex; align-items: center; gap: 10px; }
+  
+  .corr-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    width: 64px;
+    flex-shrink: 0;
+    text-transform: capitalize;
+  }
+  
+  .corr-track {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .corr-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .corr-stat { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); width: 54px; text-align: right; flex-shrink: 0; }
+  .corr-n    { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); width: 28px; flex-shrink: 0; }
+  
+  .theme-breakdown { display: flex; flex-direction: column; gap: 12px; }
+  .theme-row       { display: flex; align-items: center; gap: 10px; }
+  
+  .theme-name {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    width: 64px;
+    flex-shrink: 0;
+    text-transform: capitalize;
+  }
+  
+  .theme-track { flex: 1; height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+  .theme-fill  { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+  .theme-count { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); width: 28px; text-align: right; flex-shrink: 0; }
+  
+  .burnout-wrap { display: flex; gap: 32px; align-items: flex-start; }
+  
+  .burnout-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    min-width: 110px;
+  }
+  
+  .burnout-avg   { font-family: var(--font-mono); font-size: 2.4rem; font-weight: 700; line-height: 1; }
+  .burnout-label { font-family: var(--font-display); font-size: 0.68rem; color: var(--text-muted); text-align: center; }
+  .burnout-trend { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; margin-top: 4px; }
+  
+  .burnout-alerts { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  
+  .burnout-alert { display: flex; gap: 12px; align-items: flex-start; }
+  
+  .burnout-alert-bar  { width: 3px; min-height: 36px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+  .burnout-alert-text { font-family: var(--font-display); font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+  
+  @media (max-width: 700px) {
+    .mood-grid            { grid-template-columns: 1fr; }
+    .mood-card-wrap--wide { grid-column: 1; }
+    .mood-cards           { grid-template-columns: repeat(2, 1fr); }
+    .burnout-wrap         { flex-direction: column; }
+  }
+  
+  @media (max-width: 480px) {
+    .mood-cards { grid-template-columns: 1fr; }
+  }
+/* Phase 7 — Local AI Mood Analysis */
+
+.ai-mood-card { gap: 16px; }
+.ai-mood-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.ai-analyze-button { border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); border-radius: var(--radius-sm); padding: 9px 14px; font-family: var(--font-mono); font-size: 0.68rem; cursor: pointer; transition: border-color .2s, transform .2s; white-space: nowrap; }
+.ai-analyze-button:hover:not(:disabled) { border-color: var(--accent-blue); transform: translateY(-1px); }
+.ai-analyze-button:disabled { opacity: .55; cursor: not-allowed; }
+.ai-mood-empty, .ai-mood-error { display: flex; flex-direction: column; gap: 7px; padding: 16px; background: var(--bg-secondary); border-radius: var(--radius-sm); color: var(--text-secondary); font-family: var(--font-display); font-size: .78rem; line-height: 1.55; }
+.ai-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #4caf82; display: inline-block; margin-bottom: 3px; }
+.ai-mood-error { border-left: 3px solid #ff6b35; }
+.ai-mood-error strong { color: #ff6b35; }
+.ai-mood-error small { color: var(--text-muted); }
+.ai-mood-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ai-metric { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 14px; display: flex; flex-direction: column; gap: 4px; }
+.ai-metric span:last-child { font-family: var(--font-mono); font-size: .62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.ai-metric-value { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 700; color: var(--text-primary); }
+.ai-metric-text { font-size: .82rem; text-transform: capitalize; }
+.ai-mood-summary-text { font-family: var(--font-display); color: var(--text-secondary); font-size: .85rem; line-height: 1.6; margin: 0; }
+.ai-detail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ai-detail-grid > div { display: flex; flex-direction: column; gap: 5px; padding-top: 10px; border-top: 1px solid var(--border); }
+.ai-detail-label { font-family: var(--font-mono); color: var(--text-muted); font-size: .6rem; text-transform: uppercase; letter-spacing: .06em; }
+.ai-detail-grid strong { font-family: var(--font-display); color: var(--text-secondary); font-size: .76rem; line-height: 1.4; text-transform: capitalize; }
+@media (max-width: 700px) { .ai-mood-header { flex-direction: column; } .ai-mood-summary, .ai-detail-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .ai-mood-summary, .ai-detail-grid { grid-template-columns: 1fr; } }

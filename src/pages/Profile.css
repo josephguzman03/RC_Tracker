@@ -5,3 +5,24 @@
     width: 100%;
     padding-bottom: 48px;
   }
+  
+  .sample-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 107, 53, 0.06);
+    border-bottom: 1px solid rgba(255, 107, 53, 0.12);
+    padding: 10px 24px;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+  
+  .sample-banner-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    flex-shrink: 0;
+  }
