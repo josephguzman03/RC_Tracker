@@ -352,3 +352,21 @@ color: var(--accent-orange);
   margin-left: 21px;
 }
 }
+
+/* v1.1 â€” Cross Training */
+.cross-training-overview { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+.cross-training-overview-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.cross-training-sub { margin: 4px 0 0; max-width: 680px; color: var(--text-muted); font-family: var(--font-display); font-size: .72rem; line-height: 1.5; }
+.cross-training-count { padding: 5px 9px; border-radius: 999px; background: rgba(79,195,247,.08); border: 1px solid rgba(79,195,247,.18); color: var(--accent-blue); font-family: var(--font-mono); font-size: .62rem; white-space: nowrap; }
+.cross-training-metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+.cross-training-metrics > div { padding: 12px; border-radius: var(--radius-sm); background: var(--bg-secondary); display: flex; flex-direction: column; gap: 3px; }
+.cross-training-metrics strong { font-family: var(--font-mono); font-size: 1rem; color: var(--text-primary); }
+.cross-training-metrics span { font-family: var(--font-mono); font-size: .58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.cross-training-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.cross-training-table { width: 100%; border-collapse: collapse; font-family: var(--font-display); font-size: .72rem; }
+.cross-training-table th, .cross-training-table td { padding: 9px 11px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+.cross-training-table th { background: var(--bg-secondary); color: var(--text-muted); font-family: var(--font-mono); font-size: .58rem; text-transform: uppercase; letter-spacing: .06em; }
+.cross-training-table tr:last-child td { border-bottom: none; }
+.cross-training-table td:nth-child(2), .cross-training-table td:nth-child(6) { text-transform: capitalize; }
+.cross-training-columns-title { margin-top: 22px; }
+@media (max-width: 700px) { .cross-training-metrics { grid-template-columns: repeat(2, minmax(0,1fr)); } .cross-training-overview-head { flex-direction: column; } }

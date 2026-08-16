@@ -3,6 +3,8 @@ import { detectPlateaus, getAcuteChronicRatio, getRestLoadStatus } from '../util
 import { getGymSandbagRatings } from '../utils/gymCalibration'
 import { getSessionArchetypes } from '../utils/sessionArchetypes'
 import { detectStyleNemesis } from '../utils/styleNemesis'
+import { useSessionContext } from '../context/SessionContext'
+import { getCrossTrainingSummary } from '../utils/crossTraining'
 import './Analytics.css'
 
 const HOLD_COLORS  = { crimp: '#4fc3f7', sloper: '#ff6b35', pinch: '#a78bfa', pocket: '#4caf82', jug: '#f59e0b' }
@@ -333,8 +335,47 @@ function NemesisCard({ data }) {
   )
 }
 
+
+function CrossTrainingPanel({ entries }) {
+  const summary = getCrossTrainingSummary(entries)
+  if (!entries.length) return (
+    <div className="cross-analytics-empty">
+      <span className="plateau-clear-dot" />
+      Add a Cross Training sheet to your workbook to start tracking strength and cardio load.
+    </div>
+  )
+
+  const maxLoad = Math.max(summary.strength.load, summary.cardio.load, 1)
+  const rows = [
+    { key: 'strength', label: 'Strength', data: summary.strength },
+    { key: 'cardio', label: 'Cardio', data: summary.cardio },
+  ]
+
+  return (
+    <div className="cross-analytics">
+      <div className="cross-analytics-summary">
+        <div><strong>{summary.thisWeek.sessions}</strong><span>Recent sessions</span></div>
+        <div><strong>{summary.thisWeek.minutes}</strong><span>Recent minutes</span></div>
+        <div><strong>{summary.thisWeek.load}</strong><span>Recent load</span></div>
+        <div><strong>{summary.fingerLoadSessions}</strong><span>Finger-load logs</span></div>
+      </div>
+      <div className="cross-load-bars">
+        {rows.map(row => (
+          <div key={row.key} className="cross-load-row">
+            <div className="cross-load-top"><span>{row.label}</span><span>{row.data.sessions} sessions · {row.data.minutes} min</span></div>
+            <div className="cross-load-track"><div className={`cross-load-fill cross-load-fill--${row.key}`} style={{ width: `${(row.data.load / maxLoad) * 100}%` }} /></div>
+            <span className="cross-load-value">Load {row.data.load}</span>
+          </div>
+        ))}
+      </div>
+      <p className="cross-load-note">Load = duration × RPE. For now, this is context only and does not increase your V-grade ability score.</p>
+    </div>
+  )
+}
+
 export default function Analytics() {
   const { sessions, isReal } = useClimberStats()
+  const { crossTraining } = useSessionContext()
   const sent     = sessions.filter(s => s.sent)
   const sendRate = Math.round((sent.length / sessions.length) * 100)
   const maxGrade = sent.length ? Math.max(...sent.map(s => s.grade)) : 0
@@ -385,6 +426,13 @@ export default function Analytics() {
           <p className="analytics-card-title">RPE Over Time</p>
           <p className="analytics-card-sub">Last 12 sessions</p>
           <LoadChart sessions={sessions} />
+        </div>
+
+
+        <div className="analytics-card analytics-card--wide">
+          <p className="analytics-card-title">Cross Training Load</p>
+          <p className="analytics-card-sub">Strength + cardio context · tracked separately from climbing ability</p>
+          <CrossTrainingPanel entries={crossTraining} />
         </div>
 
         <div className="analytics-card">

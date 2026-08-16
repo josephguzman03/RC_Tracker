@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import FileUpload from '../components/FileUpload/FileUpload'
 import { useSessionContext } from '../context/SessionContext'
+import { getCrossTrainingSummary } from '../utils/crossTraining'
 import './Sessions.css'
 
 const COLUMNS = [
@@ -17,6 +18,16 @@ const COLUMNS = [
   { name: 'Session Type', desc: 'project / volume / technique'           },
   { name: 'Injury Flag',  desc: 'none / finger / shoulder / elbow'       },
   { name: 'Notes',        desc: 'Free text - feeds NLP analysis'         },
+]
+
+const CROSS_TRAINING_COLUMNS = [
+  { name: 'Date',        desc: 'YYYY-MM-DD' },
+  { name: 'Type',        desc: 'strength / cardio' },
+  { name: 'Focus',       desc: 'pull / legs / push / run / bike / etc.' },
+  { name: 'Duration',    desc: 'Minutes' },
+  { name: 'RPE',         desc: '1-10 effort rating' },
+  { name: 'Finger Load', desc: 'none / low / medium / high' },
+  { name: 'Notes',       desc: 'Free text' },
 ]
 
 const TABLE_COLS = [
@@ -38,7 +49,8 @@ function formatSavedTime(value) {
 }
 
 export default function Sessions() {
-  const { sessions, clearSessions, storageReady, lastSavedAt } = useSessionContext()
+  const { sessions, crossTraining, clearAllData, storageReady, lastSavedAt } = useSessionContext()
+  const crossSummary = getCrossTrainingSummary(crossTraining)
   const [sortKey, setSortKey]       = useState('date')
   const [sortDir, setSortDir]       = useState('desc')
   const [filter, setFilter]         = useState('')
@@ -50,11 +62,11 @@ export default function Sessions() {
   }
 
   function handleClear() {
-    if (!sessions.length) return
+    if (!sessions.length && !crossTraining.length) return
     const confirmed = window.confirm(
-      `Clear all ${sessions.length} locally saved climbing sessions? Your Excel file will not be changed.`
+      `Clear ${sessions.length} climbing and ${crossTraining.length} cross-training rows saved on this device? Your Excel file will not be changed.`
     )
-    if (confirmed) clearSessions()
+    if (confirmed) clearAllData()
   }
 
   const filtered = sessions
@@ -91,15 +103,15 @@ export default function Sessions() {
           <div className="persistence-status-dot" />
           <div className="persistence-copy">
             <p className="persistence-title">
-              {storageReady ? (sessions.length ? `${sessions.length} sessions retained on this device` : 'Local storage ready') : 'Loading saved sessions...'}
+              {storageReady ? ((sessions.length || crossTraining.length) ? `${sessions.length} climbing · ${crossTraining.length} cross-training rows retained` : 'Local storage ready') : 'Loading saved training data...'}
             </p>
             <p className="persistence-sub">
-              {sessions.length
-                ? `${formatSavedTime(lastSavedAt)} · Refreshing or reopening this browser will keep this dataset.`
+              {(sessions.length || crossTraining.length)
+                ? `${formatSavedTime(lastSavedAt)} · Refreshing or reopening this browser will keep both datasets.`
                 : 'Import your spreadsheet once. Future imports can merge only the new rows.'}
             </p>
           </div>
-          {sessions.length > 0 && (
+          {(sessions.length > 0 || crossTraining.length > 0) && (
             <button type="button" className="persistence-clear-btn" onClick={handleClear}>
               Clear Local Data
             </button>
@@ -111,7 +123,7 @@ export default function Sessions() {
             <span className="template-icon">⬡</span>
             <div>
               <p className="template-card-title">climbing_template.xlsx</p>
-              <p className="template-card-sub">13 columns · keep one growing workbook as your source log</p>
+              <p className="template-card-sub">Sessions + Cross Training sheets · keep one growing workbook as your source log</p>
             </div>
           </div>
           <a className="template-download-btn" href="/climbing_template.xlsx" download="climbing_template.xlsx">
@@ -183,10 +195,49 @@ export default function Sessions() {
           </div>
         )}
 
+        <div className="cross-training-overview">
+          <div className="cross-training-overview-head">
+            <div>
+              <p className="columns-title">Cross Training</p>
+              <p className="cross-training-sub">Strength and cardio stay separate from climbing ability, but are now stored for future load/recovery modeling.</p>
+            </div>
+            <span className="cross-training-count">{crossTraining.length} logs</span>
+          </div>
+          <div className="cross-training-metrics">
+            <div><strong>{crossSummary.strength.sessions}</strong><span>Strength</span></div>
+            <div><strong>{crossSummary.cardio.sessions}</strong><span>Cardio</span></div>
+            <div><strong>{crossSummary.totalMinutes}</strong><span>Total min</span></div>
+            <div><strong>{crossSummary.thisWeek.load}</strong><span>Recent load</span></div>
+          </div>
+          {crossTraining.length > 0 && (
+            <div className="cross-training-table-wrap">
+              <table className="cross-training-table">
+                <thead><tr><th>Date</th><th>Type</th><th>Focus</th><th>Duration</th><th>RPE</th><th>Finger Load</th><th>Notes</th></tr></thead>
+                <tbody>
+                  {[...crossTraining].sort((a,b) => b.date.localeCompare(a.date)).slice(0, 12).map(entry => (
+                    <tr key={entry.id}>
+                      <td>{entry.date}</td><td>{entry.type}</td><td>{entry.focus || '—'}</td><td>{entry.durationMinutes} min</td><td>{entry.rpe}</td><td>{entry.fingerLoad}</td><td className="notes-cell">{entry.notes || '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
         <div className="columns-section">
           <p className="columns-title">Template columns</p>
           <div className="columns-grid">
             {COLUMNS.map(col => (
+              <div key={col.name} className="column-item">
+                <span className="column-name">{col.name}</span>
+                <span className="column-desc">{col.desc}</span>
+              </div>
+            ))}
+          </div>
+          <p className="columns-title cross-training-columns-title">Cross Training sheet columns</p>
+          <div className="columns-grid">
+            {CROSS_TRAINING_COLUMNS.map(col => (
               <div key={col.name} className="column-item">
                 <span className="column-name">{col.name}</span>
                 <span className="column-desc">{col.desc}</span>

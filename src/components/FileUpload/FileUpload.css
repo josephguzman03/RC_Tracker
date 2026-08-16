@@ -188,3 +188,12 @@ cursor: not-allowed;
   flex: 1;
 }
 }
+
+/* v1.1 â€” Cross Training workbook import */
+.upload-training-note {
+margin-top: 4px;
+color: var(--text-muted);
+font-family: var(--font-mono);
+font-size: .6rem;
+line-height: 1.4;
+}

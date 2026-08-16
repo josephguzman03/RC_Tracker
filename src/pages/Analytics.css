@@ -425,3 +425,22 @@
 @media (max-width: 700px) {
   .nemesis-stats { grid-template-columns: 1fr 1fr; }
 }
+
+/* v1.1 â€” Cross Training analytics */
+.cross-analytics { display: flex; flex-direction: column; gap: 16px; }
+.cross-analytics-summary { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+.cross-analytics-summary > div { padding: 12px 14px; background: var(--bg-secondary); border-radius: var(--radius-sm); display: flex; flex-direction: column; gap: 3px; }
+.cross-analytics-summary strong { font-family: var(--font-mono); font-size: 1rem; color: var(--text-primary); }
+.cross-analytics-summary span { font-family: var(--font-mono); font-size: .57rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.cross-load-bars { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+.cross-load-row { display: flex; flex-direction: column; gap: 6px; }
+.cross-load-top { display: flex; justify-content: space-between; gap: 12px; font-family: var(--font-display); font-size: .72rem; color: var(--text-secondary); }
+.cross-load-top span:last-child { font-family: var(--font-mono); font-size: .61rem; color: var(--text-muted); }
+.cross-load-track { height: 7px; background: var(--bg-secondary); border-radius: 999px; overflow: hidden; }
+.cross-load-fill { height: 100%; border-radius: 999px; }
+.cross-load-fill--strength { background: var(--accent-orange); }
+.cross-load-fill--cardio { background: var(--accent-blue); }
+.cross-load-value { font-family: var(--font-mono); font-size: .61rem; color: var(--text-muted); }
+.cross-load-note { margin: 0; padding-top: 10px; border-top: 1px solid var(--border); font-family: var(--font-display); font-size: .68rem; color: var(--text-muted); line-height: 1.5; }
+.cross-analytics-empty { display: flex; align-items: center; gap: 8px; padding: 18px 0; color: var(--text-muted); font-family: var(--font-display); font-size: .75rem; }
+@media (max-width: 700px) { .cross-analytics-summary { grid-template-columns: repeat(2, minmax(0,1fr)); } .cross-load-bars { grid-template-columns: 1fr; } }
